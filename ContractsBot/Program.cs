@@ -22,6 +22,7 @@ builder.Services.AddSingleton(interactionService);
 builder.Services.AddDbContext<DatabaseContext>(o => o.UseSqlite("Data Source=contracts.db"));
 builder.Services.AddScoped<RankingService>();
 builder.Services.AddHostedService<BotWorker>();
+builder.Services.AddSystemd();
 
 var host = builder.Build();
 
