@@ -13,7 +13,7 @@ public class IsTheirOwnForumThreadAttribute : PreconditionAttribute
             return Task.FromResult(PreconditionResult.FromError("Tej komendy można używać tylko w wątku kontraktu"));
         }
 
-        if (forumThread.Owner.Id != context.User.Id)
+        if (((IThreadChannel)forumThread).OwnerId != context.User.Id)
         {
             return Task.FromResult(PreconditionResult.FromError("Tylko autor kontraktu może używać tej komendy"));
         }
