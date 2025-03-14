@@ -1,11 +1,10 @@
-﻿using Discord;
+using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
 using MafiaContractsBot.Features.ContractsRanking.Models;
 using MafiaContractsBot.Features.ContractsRanking.Preconditions;
 using MafiaContractsBot.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Plotly.NET;
 
 namespace MafiaContractsBot.Features.ContractsRanking;
 
@@ -91,13 +90,14 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
 
         var embed = new EmbedBuilder()
             .WithTitle("Ranking kontraktów")
-            .WithImageUrl($"attachment://{rankingChart.File.Name}")
+            .WithImageUrl($"attachment://ranking.png")
             .WithThumbnailUrl("https://i.imgur.com/BEqMP5X.png")
             .WithDescription(rankingText)
             .WithColor(Discord.Color.Blue)
+            .WithFooter("Orion")
             .Build();
 
-        await FollowupWithFileAsync(rankingChart.FileStream, rankingChart.File.Name, embed: embed, allowedMentions: AllowedMentions.None);
+        await FollowupWithFileAsync(rankingChart, "ranking.png", embed: embed, allowedMentions: AllowedMentions.None);
     }
 
     //[SlashCommand("ranking-chart", "Wyświetl serwerowy ranking konktraktów w formie samego wykresu")]
