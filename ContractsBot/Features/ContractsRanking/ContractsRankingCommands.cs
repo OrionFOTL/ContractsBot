@@ -1,4 +1,4 @@
-using Discord;
+﻿using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
 using MafiaContractsBot.Features.ContractsRanking.Models;
@@ -61,7 +61,7 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
     }
 
     [SlashCommand("ranking", "Wyświetl serwerowy ranking kontraktów w formie listy i wykresu")]
-    public async Task Ranking()
+    public async Task Ranking([Summary("top", "Ilu najlepszych użytkowników pokazać na liście")] int top = 3)
     {
         await DeferAsync();
 
@@ -69,7 +69,7 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
             .Include(u => u.CompletedContracts)
                 .ThenInclude(cc => cc.Contract)
             .OrderByDescending(u => u.CompletedContracts.Sum(cc => cc.Points))
-            .Take(3)
+            .Take(top)
             .ToListAsync();
 
         var rankStrings =
