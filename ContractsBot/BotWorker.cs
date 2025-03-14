@@ -76,7 +76,7 @@ public class BotWorker(
                 : embed.WithDescription(
                     executeResult.Exception.Message + Environment.NewLine + 
                     Format.Code(executeResult.Exception.ToString()) + Environment.NewLine +
-                    $"Taguj� {MentionUtils.MentionUser(194116215403184128)}");
+                    $"Taguję {MentionUtils.MentionUser(194116215403184128)}");
         }
 
         await context.Interaction.RespondAsync(embed: embed.Build());
