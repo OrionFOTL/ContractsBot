@@ -1,14 +1,17 @@
+using ContractsBot.Configuration;
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
 using MafiaContractsBot.Extensions;
 using MafiaContractsBot.Features.ContractsRanking;
+using Microsoft.Extensions.Options;
 
 namespace MafiaContractsBot;
 
 public class BotWorker(
     ILogger<BotWorker> logger,
-    IConfiguration configuration,
+    IOptions<DiscordClientOptions> discordClientOptions,
+    IOptions<ServerOptions> serverOptions,
     DiscordSocketClient client,
     InteractionService interactionService,
     IServiceProvider serviceProvider) : BackgroundService
@@ -25,7 +28,7 @@ public class BotWorker(
 
         await RegisterModules();
 
-        var token = configuration["Token"];
+        var token = discordClientOptions.Value.Token;
         await client.LoginAsync(TokenType.Bot, token);
         await client.StartAsync();
     }
@@ -40,9 +43,7 @@ public class BotWorker(
 
     private async Task RegisterCommandsToServers()
     {
-        var guilds = new ulong[] { 1340692574733598831, 887064391445512294 };
-
-        foreach (var id in guilds)
+        foreach (var id in serverOptions.Value.GuildIds)
         {
             await interactionService.RegisterCommandsToGuildAsync(id);
         }
@@ -74,7 +75,7 @@ public class BotWorker(
             embed = executeResult.Exception.InnerException is ContractsDomainException contractsException
                 ? embed.WithDescription(contractsException.Message)
                 : embed.WithDescription(
-                    executeResult.Exception.Message + Environment.NewLine + 
+                    executeResult.Exception.Message + Environment.NewLine +
                     Format.Code(executeResult.Exception.ToString()) + Environment.NewLine +
                     $"Taguję {MentionUtils.MentionUser(194116215403184128)}");
         }

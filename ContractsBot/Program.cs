@@ -1,3 +1,5 @@
+using ContractsBot.Configuration;
+using ContractsBot.Extensions;
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
@@ -17,6 +19,8 @@ var discordSocketConfig = new DiscordSocketConfig()
 var discordSocketClient = new DiscordSocketClient(discordSocketConfig);
 var interactionService = new InteractionService(discordSocketClient);
 
+builder.Services.AddAndValidateOptions<DiscordClientOptions>(DiscordClientOptions.SectionName);
+builder.Services.AddAndValidateOptions<ServerOptions>(ServerOptions.SectionName);
 builder.Services.AddSingleton(discordSocketClient);
 builder.Services.AddSingleton(interactionService);
 builder.Services.AddDbContext<DatabaseContext>(o => o.UseSqlite("Data Source=contracts.db"));
