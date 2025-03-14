@@ -64,15 +64,19 @@ public class BotWorker(
         }
 
         var embed = new EmbedBuilder()
-            .WithTitle("B³¹d")
+            .WithTitle("Bï¿½ï¿½d")
             .WithColor(Color.Red)
+            .WithFooter("Orion")
             .WithDescription(result.ErrorReason);
 
         if (result is ExecuteResult { Error: InteractionCommandError.Exception, Exception: not null } executeResult)
         {
-            embed = executeResult.Exception is ContractsDomainException
-                ? embed.WithDescription(executeResult.Exception.Message)
-                : embed.WithDescription(executeResult.Exception.Message + Environment.NewLine + Format.Code(executeResult.Exception.ToString()));
+            embed = executeResult.Exception.InnerException is ContractsDomainException contractsException
+                ? embed.WithDescription(contractsException.Message)
+                : embed.WithDescription(
+                    executeResult.Exception.Message + Environment.NewLine + 
+                    Format.Code(executeResult.Exception.ToString()) + Environment.NewLine +
+                    $"Tagujï¿½ {MentionUtils.MentionUser(194116215403184128)}");
         }
 
         await context.Interaction.RespondAsync(embed: embed.Build());

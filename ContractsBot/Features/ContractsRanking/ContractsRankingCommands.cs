@@ -46,13 +46,14 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
 
             Ma teraz w sumie {contractUser.CompletedContracts.Sum(x => x.Points)} punktów i jest na {medalEmoji}{userRank}. miejscu w serwerowym rankingu!
 
-            {Format.Subtext($"Użyj {Format.Code("/ranking")} albo {Format.Code("/ranking-chart")} aby wyświetlić serwerową listę najlepszych~!")}
+            {Format.Subtext($"Użyj {Format.Code("/ranking")} aby wyświetlić serwerową listę najlepszych~!")}
             """;
 
         var embed = new EmbedBuilder()
             .WithTitle("Ukończono kontrakt!")
             .WithDescription(text)
             .WithColor(Discord.Color.Green)
+            .WithFooter("Orion")
             .Build();
 
         await RespondAsync(embed: embed);
