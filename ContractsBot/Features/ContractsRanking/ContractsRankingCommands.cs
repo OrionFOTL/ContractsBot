@@ -12,7 +12,9 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
 {
     [SlashCommand("complete-contract", "Dodaj userowi punkty za ukończenie tego kontraktu")]
     [IsTheirOwnForumThread]
-    public async Task CompleteContract(SocketUser user, int points)
+    public async Task CompleteContract(
+        [Summary("użytkownik", "Komu przyznać punkty"), IsHumanUser] SocketUser user,
+        [Summary("punkty", "Liczba punktów za ukończenie kontraktu razem z opcjonalnymi celami")] int points)
     {
         var threadChannel = (SocketThreadChannel)Context.Channel;
 
