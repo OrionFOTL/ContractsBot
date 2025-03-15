@@ -1,4 +1,4 @@
-using ContractsBot.Infrastructure;
+﻿using ContractsBot.Infrastructure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.SKCharts;
@@ -12,16 +12,17 @@ public class RankingService(DatabaseContext context)
 {
     public async Task<int> GetRank(ulong userId)
     {
-        var topPoints = await context.ContractUsers
+        var rank = await context.ContractUsers
+            .Where(user => user.Id == userId)
             .Select(user => new
             {
-                UserId = user.Id,
-                TotalPoints = user.CompletedContracts.Sum(x => x.Points)
+                Rank = context.ContractUsers
+                    .Count(other => other.CompletedContracts.Sum(x => x.Points) >
+                                    user.CompletedContracts.Sum(x => x.Points)) + 1
             })
-            .OrderByDescending(x => x.TotalPoints)
-            .ToListAsync();
+            .FirstOrDefaultAsync();
 
-        return topPoints.FindIndex(x => x.UserId == userId) + 1;
+        return rank?.Rank ?? -1;
     }
 
     public async Task<Stream> GetRankingChart()
