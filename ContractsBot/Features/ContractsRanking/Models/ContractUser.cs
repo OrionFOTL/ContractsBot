@@ -12,22 +12,19 @@ public class ContractUser
 
     internal void CompleteContract(Contract contract, int points)
     {
-        var existingContract = CompletedContracts.FirstOrDefault(cc => cc.Contract == contract);
-        if (existingContract is not null)
+        var completedContract = CompletedContracts.FirstOrDefault(cc => cc.Contract.ThreadId == contract.ThreadId);
+        if (completedContract != null)
         {
-            throw new ContractsDomainException(
-                $"{MentionUtils.MentionUser(Id)} już ukończył ten kontrakt; " +
-                $"dostał za niego {existingContract.Points} punktów w dniu " +
-                $"{TimestampTag.FormatFromDateTimeOffset(existingContract.CompletedOn, TimestampTagStyles.ShortDateTime)}.");
+            completedContract.Points = points;
         }
-
-        var completedContract = new CompletedContract
+        else
         {
-            User = this,
-            Contract = contract,
-            Points = points
-        };
-
-        CompletedContracts.Add(completedContract);
+            CompletedContracts.Add(new CompletedContract
+            {
+                User = this,
+                Contract = contract,
+                Points = points,
+            });
+        }
     }
 }

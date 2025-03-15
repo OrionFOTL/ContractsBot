@@ -1,4 +1,4 @@
-﻿using ContractsBot.Features.ContractsRanking.Models;
+using ContractsBot.Features.ContractsRanking.Models;
 using ContractsBot.Features.ContractsRanking.Preconditions;
 using ContractsBot.Infrastructure;
 using Discord;
@@ -10,9 +10,9 @@ namespace ContractsBot.Features.ContractsRanking;
 
 public class ContractsRankingCommands(DatabaseContext dbContext, RankingService rankingService) : InteractionModuleBase<SocketInteractionContext>
 {
-    [SlashCommand("complete-contract", "Dodaj userowi punkty za ukończenie tego kontraktu")]
-    [IsTheirOwnForumThread]
-    public async Task CompleteContract(
+    [SlashCommand("set-points", "Dodaj/edytuj userowi punkty za ukończenie tego kontraktu")]
+    [IsTheirOwnForumThread(Group = "Group")]
+    public async Task SetPoints(
         [Summary("użytkownik", "Komu przyznać punkty"), IsHumanUser] SocketUser user,
         [Summary("punkty", "Liczba punktów za ukończenie kontraktu razem z opcjonalnymi celami")] int points)
     {
