@@ -1,4 +1,4 @@
-using ContractsBot.Features.ContractsRanking.Models;
+﻿using ContractsBot.Features.ContractsRanking.Models;
 using ContractsBot.Features.ContractsRanking.Preconditions;
 using ContractsBot.Infrastructure;
 using Discord;
@@ -52,7 +52,8 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
         var embed = new EmbedBuilder()
             .WithTitle("Ukończono kontrakt!")
             .WithDescription(text)
-            .WithColor(Discord.Color.Green)
+            .WithThumbnailUrl("https://i.imgur.com/BEqMP5X.png")
+            .WithColor(Color.Green)
             .WithFooter("Orion")
             .Build();
 
