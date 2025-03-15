@@ -1,7 +1,7 @@
-﻿using MafiaContractsBot.Features.ContractsRanking.Models;
+﻿using ContractsBot.Features.ContractsRanking.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace MafiaContractsBot.Infrastructure;
+namespace ContractsBot.Infrastructure;
 
 public class DatabaseContext(DbContextOptions options) : DbContext(options)
 {

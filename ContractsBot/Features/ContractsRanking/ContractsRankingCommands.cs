@@ -1,12 +1,12 @@
-﻿using Discord;
+using ContractsBot.Features.ContractsRanking.Models;
+using ContractsBot.Features.ContractsRanking.Preconditions;
+using ContractsBot.Infrastructure;
+using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using MafiaContractsBot.Features.ContractsRanking.Models;
-using MafiaContractsBot.Features.ContractsRanking.Preconditions;
-using MafiaContractsBot.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace MafiaContractsBot.Features.ContractsRanking;
+namespace ContractsBot.Features.ContractsRanking;
 
 public class ContractsRankingCommands(DatabaseContext dbContext, RankingService rankingService) : InteractionModuleBase<SocketInteractionContext>
 {
@@ -96,7 +96,7 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
             .WithImageUrl($"attachment://ranking.png")
             .WithThumbnailUrl("https://i.imgur.com/BEqMP5X.png")
             .WithDescription(rankingText)
-            .WithColor(Discord.Color.Blue)
+            .WithColor(Color.Blue)
             .WithFooter("Orion")
             .Build();
 

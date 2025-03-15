@@ -2,7 +2,7 @@
 using Discord.Interactions;
 using Discord.WebSocket;
 
-namespace MafiaContractsBot.Features.ContractsRanking.Preconditions;
+namespace ContractsBot.Features.ContractsRanking.Preconditions;
 
 public class IsHumanUserAttribute : ParameterPreconditionAttribute
 {

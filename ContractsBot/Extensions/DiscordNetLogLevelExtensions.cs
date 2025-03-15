@@ -1,6 +1,6 @@
 ﻿using Discord;
 
-namespace MafiaContractsBot.Extensions;
+namespace ContractsBot.Extensions;
 
 internal static class DiscordNetLogLevelExtensions
 {

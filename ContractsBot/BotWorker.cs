@@ -1,14 +1,14 @@
 using ContractsBot.Configuration;
+using ContractsBot.Extensions;
+using ContractsBot.Features.ContractsRanking;
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using MafiaContractsBot.Extensions;
-using MafiaContractsBot.Features.ContractsRanking;
 using Microsoft.Extensions.Options;
 
-namespace MafiaContractsBot;
+namespace ContractsBot;
 
-public class BotWorker(
+internal class BotWorker(
     ILogger<BotWorker> logger,
     IOptions<DiscordClientOptions> discordClientOptions,
     IOptions<ServerOptions> serverOptions,

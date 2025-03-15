@@ -1,13 +1,12 @@
-﻿using MafiaContractsBot.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using LiveChartsCore;
+using ContractsBot.Infrastructure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
-using SkiaSharp;
 using LiveChartsCore.SkiaSharpView.SKCharts;
 using LiveChartsCore.SkiaSharpView.VisualElements;
+using Microsoft.EntityFrameworkCore;
+using SkiaSharp;
 
-namespace MafiaContractsBot.Features.ContractsRanking;
+namespace ContractsBot.Features.ContractsRanking;
 
 public class RankingService(DatabaseContext context)
 {

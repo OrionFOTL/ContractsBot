@@ -1,6 +1,6 @@
 ﻿using Discord;
 
-namespace MafiaContractsBot.Features.ContractsRanking.Models;
+namespace ContractsBot.Features.ContractsRanking.Models;
 
 public class ContractUser
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MafiaContractsBot.Features.ContractsRanking.Models;
+namespace ContractsBot.Features.ContractsRanking.Models;
 
 public class Contract
 {

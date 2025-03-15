@@ -1,11 +1,11 @@
+using ContractsBot;
 using ContractsBot.Configuration;
 using ContractsBot.Extensions;
+using ContractsBot.Features.ContractsRanking;
+using ContractsBot.Infrastructure;
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using MafiaContractsBot;
-using MafiaContractsBot.Features.ContractsRanking;
-using MafiaContractsBot.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = Host.CreateApplicationBuilder(args);
