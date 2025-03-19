@@ -65,7 +65,7 @@ internal class BotWorker(
         }
 
         var embed = new EmbedBuilder()
-            .WithTitle("B��d")
+            .WithTitle("Błąd")
             .WithColor(Color.Red)
             .WithFooter("Orion")
             .WithDescription(result.ErrorReason);

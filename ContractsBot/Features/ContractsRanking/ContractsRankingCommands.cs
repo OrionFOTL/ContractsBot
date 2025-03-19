@@ -44,7 +44,7 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
 
         string text =
             $"""
-            Dodano {points} punktów dla {user.Mention} za ukończenie kontraktu {Format.Bold(threadChannel.Name)}!
+            Przyznano {points} punktów dla {user.Mention} za ukończenie kontraktu {Format.Bold(threadChannel.Name)}!
 
             Ma teraz w sumie {contractUser.CompletedContracts.Sum(x => x.Points)} punktów i jest na {medalEmoji}{userRank}. miejscu w serwerowym rankingu!
 
@@ -56,7 +56,6 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
             .WithDescription(text)
             .WithThumbnailUrl("https://i.imgur.com/BEqMP5X.png")
             .WithColor(Color.Green)
-            .WithFooter("Orion")
             .Build();
 
         await RespondAsync(embed: embed);
