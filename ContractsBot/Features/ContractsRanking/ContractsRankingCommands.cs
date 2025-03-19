@@ -1,4 +1,4 @@
-using ContractsBot.Features.ContractsRanking.Models;
+﻿using ContractsBot.Features.ContractsRanking.Models;
 using ContractsBot.Features.ContractsRanking.Preconditions;
 using ContractsBot.Infrastructure;
 using Discord;
@@ -10,10 +10,12 @@ namespace ContractsBot.Features.ContractsRanking;
 
 public class ContractsRankingCommands(DatabaseContext dbContext, RankingService rankingService) : InteractionModuleBase<SocketInteractionContext>
 {
-    [SlashCommand("set-points", "Dodaj/edytuj userowi punkty za ukończenie tego kontraktu")]
+    public static Dictionary<ulong, ulong> GuildToRankingCommandId { get; } = [];
+
     [IsTheirOwnForumThread(Group = "Group")]
     [IsInContractManagerRole(Group = "Group")]
     [RequireOwner(Group = "Group")]
+    [SlashCommand("set-points", "Dodaj/edytuj userowi punkty za ukończenie tego kontraktu")]
     public async Task SetPoints(
         [Summary("użytkownik", "Komu przyznać punkty"), IsHumanUser] SocketUser user,
         [Summary("punkty", "Liczba punktów za ukończenie kontraktu razem z opcjonalnymi celami")] int points)
@@ -48,7 +50,7 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
 
             Ma teraz w sumie {contractUser.CompletedContracts.Sum(x => x.Points)} punktów i jest na {medalEmoji}{userRank}. miejscu w serwerowym rankingu!
 
-            {Format.Subtext($"Użyj {Format.Code("/ranking")} aby wyświetlić serwerową listę najlepszych~!")}
+            {Format.Subtext($"Użyj {(Context.Guild != null && GuildToRankingCommandId.TryGetValue(Context.Guild.Id, out var commandId) ? $"</ranking:{commandId}>" : Format.Code("/ranking"))} aby wyświetlić serwerową listę najlepszych~!")}
             """;
 
         var embed = new EmbedBuilder()

@@ -45,7 +45,9 @@ internal class BotWorker(
     {
         foreach (var id in serverOptions.Value.GuildIds)
         {
-            await interactionService.RegisterCommandsToGuildAsync(id);
+            var registeredCommands = await interactionService.RegisterCommandsToGuildAsync(id);
+
+            ContractsRankingCommands.GuildToRankingCommandId.Add(id, registeredCommands.First(c => c.Name == "ranking").Id);
         }
     }
 
