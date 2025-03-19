@@ -12,6 +12,8 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
 {
     [SlashCommand("set-points", "Dodaj/edytuj userowi punkty za ukończenie tego kontraktu")]
     [IsTheirOwnForumThread(Group = "Group")]
+    [IsInContractManagerRole(Group = "Group")]
+    [RequireOwner(Group = "Group")]
     public async Task SetPoints(
         [Summary("użytkownik", "Komu przyznać punkty"), IsHumanUser] SocketUser user,
         [Summary("punkty", "Liczba punktów za ukończenie kontraktu razem z opcjonalnymi celami")] int points)

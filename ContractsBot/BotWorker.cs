@@ -70,6 +70,11 @@ internal class BotWorker(
             .WithFooter("Orion")
             .WithDescription(result.ErrorReason);
 
+        if (result is PreconditionGroupResult preconditionGroupResult)
+        {
+            embed = embed.WithDescription(preconditionGroupResult.Results.First(r => !r.IsSuccess).ErrorReason);
+        }
+
         if (result is ExecuteResult { Error: InteractionCommandError.Exception, Exception: not null } executeResult)
         {
             embed = executeResult.Exception.InnerException is ContractsDomainException contractsException
