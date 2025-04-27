@@ -12,6 +12,7 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
 {
     public static Dictionary<ulong, ulong> GuildToRankingCommandId { get; } = [];
 
+    [IsInForumThread]
     [IsTheirOwnForumThread(Group = "Group")]
     [IsInContractManagerRole(Group = "Group")]
     [RequireOwner(Group = "Group")]
