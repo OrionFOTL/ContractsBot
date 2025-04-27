@@ -53,7 +53,23 @@ internal class BotWorker(
 
     private async Task HandleInteraction(SocketInteraction interaction)
     {
-        logger.LogInformation("Interaction {type} from {user}", interaction.Type, interaction.User);
+        if (interaction is SocketSlashCommand slashCommand)
+        {
+            var parameters = string.Join(", ", slashCommand.Data.Options.Select(o => $"{o.Name}={o.Value}"));
+            logger.LogInformation(
+                "Command executed: {Command} with parameters: {Parameters} by user {User} ({UserId}) in guild {GuildId}, channel {ChannelName} ({ChannelId})",
+                slashCommand.CommandName,
+                parameters,
+                interaction.User.Username,
+                interaction.User.Id,
+                interaction.GuildId,
+                (interaction.Channel as SocketTextChannel)?.Name ?? "Unknown",
+                interaction.Channel.Id);
+        }
+        else
+        {
+            logger.LogInformation("Interaction {type} from {user}", interaction.Type, interaction.User);
+        }
 
         var interactionContext = new SocketInteractionContext(client, interaction);
         await interactionService.ExecuteCommandAsync(interactionContext, serviceProvider);
@@ -63,7 +79,6 @@ internal class BotWorker(
     {
         if (result.IsSuccess)
         {
-            logger.LogInformation("Command executed: {Command}", commandInfo.Name);
             return;
         }
 
@@ -82,12 +97,21 @@ internal class BotWorker(
             embed = executeResult.Exception.InnerException is ContractsDomainException contractsException
                 ? embed.WithDescription(contractsException.Message)
                 : embed.WithDescription(
-                    executeResult.Exception.Message + Environment.NewLine +
-                    Format.Code(executeResult.Exception.ToString()) + Environment.NewLine +
-                    $"Taguję {MentionUtils.MentionUser(194116215403184128)}");
+                    executeResult.Exception.Message
+                    + Environment.NewLine + Format.Code(executeResult.Exception.ToString()));
         }
 
-        await context.Interaction.RespondAsync(embed: embed.Build());
+        await context.Interaction.RespondAsync(embed: embed.Build(), allowedMentions: AllowedMentions.All);
+
+        var application = await client.GetApplicationInfoAsync();
+        var owner = application.Owner;
+        if (owner != null)
+        {
+            var ownerDmChannel = await owner.CreateDMChannelAsync();
+            var messageLink = $"https://discord.com/channels/{context.Guild.Id}/{context.Channel.Id}/{context.Interaction.Id}";
+
+            await ownerDmChannel.SendMessageAsync(messageLink, embed: embed.Build());
+        }
     }
 
     private Task Log(LogMessage log)
