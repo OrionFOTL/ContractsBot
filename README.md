@@ -1,1 +1,1 @@
-# MafiaContractsBot
+# ContractsBot

@@ -1,7 +1,7 @@
 ﻿{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "MafiaContractsBot": {
+    "ContractsBot": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "environmentVariables": {
