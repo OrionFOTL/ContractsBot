@@ -65,8 +65,10 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
     }
 
     [SlashCommand("ranking", "Wyświetl serwerowy ranking kontraktów w formie listy i wykresu")]
-    public async Task Ranking([Summary("top", "Ilu najlepszych użytkowników pokazać na liście")] int top = 3)
+    public async Task Ranking()
     {
+        int top = 3;
+
         await DeferAsync();
 
         var ranking = await dbContext.ContractUsers
