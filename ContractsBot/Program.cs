@@ -7,6 +7,7 @@ using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -19,6 +20,7 @@ var discordSocketConfig = new DiscordSocketConfig()
 var discordSocketClient = new DiscordSocketClient(discordSocketConfig);
 var interactionService = new InteractionService(discordSocketClient);
 
+builder.Services.AddSerilog(config => config.ReadFrom.Configuration(builder.Configuration));
 builder.Services.AddAndValidateOptions<DiscordClientOptions>(DiscordClientOptions.SectionName);
 builder.Services.AddAndValidateOptions<ServerOptions>(ServerOptions.SectionName);
 builder.Services.AddSingleton(discordSocketClient);
