@@ -21,5 +21,6 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="9.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.3" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.9" />
   </ItemGroup>
 </Project>
