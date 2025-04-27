@@ -63,13 +63,13 @@ internal class BotWorker(
     {
         if (result.IsSuccess)
         {
+            logger.LogInformation("Command executed: {Command}", commandInfo.Name);
             return;
         }
 
         var embed = new EmbedBuilder()
             .WithTitle("Błąd")
             .WithColor(Color.Red)
-            .WithFooter("Orion")
             .WithDescription(result.ErrorReason);
 
         if (result is PreconditionGroupResult preconditionGroupResult)
