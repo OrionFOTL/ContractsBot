@@ -10,6 +10,11 @@ namespace ContractsBot.Features.ContractsRanking;
 
 public class RankingService(DatabaseContext context)
 {
+    private static SolidColorPaint BlackOpenSansPaint => new(new SKColor(30, 30, 30, 255))
+    {
+        SKTypeface = SKTypeface.FromFamilyName("Noto Sans JP")
+    };
+
     public async Task<int> GetRank(ulong userId)
     {
         var rank = await context.ContractUsers
@@ -61,7 +66,10 @@ public class RankingService(DatabaseContext context)
             [
                 new Axis
                 {
-                    Labels = topUsers.Select(u => u.Name).ToArray()
+                    Labels = topUsers.Select(u => u.Name).ToArray(),
+                    LabelsPaint = BlackOpenSansPaint,
+                    LabelsRotation = -30,
+                    Padding = new(1),
                 }
             ],
             YAxes =
@@ -69,18 +77,19 @@ public class RankingService(DatabaseContext context)
                 new Axis()
                 {
                     MinLimit = 0,
+                    LabelsPaint = BlackOpenSansPaint,
                 }
             ],
             Title = new LabelVisual
             {
                 Text = "Ranking kontraktów",
                 TextSize = 20,
-                Paint = new SolidColorPaint(SKColors.Black)
+                Paint = BlackOpenSansPaint,
             },
             LegendPosition = LiveChartsCore.Measure.LegendPosition.Right,
             LegendTextPaint = new SolidColorPaint(SKColors.Black),
             LegendBackgroundPaint = new SolidColorPaint(SKColors.LightGray),
-            LegendTextSize = 12,
+            LegendTextSize = 11,
         };
 
         return chart.GetImage().Encode().AsStream();
