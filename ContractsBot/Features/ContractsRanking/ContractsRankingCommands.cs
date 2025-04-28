@@ -27,7 +27,7 @@ public class ContractsRankingCommands(DatabaseContext dbContext, RankingService 
             .Include(u => u.CompletedContracts)
                 .ThenInclude(cc => cc.Contract)
             .FirstOrDefaultAsync(x => x.Id == user.Id)
-            ?? dbContext.ContractUsers.Add(new ContractUser { Id = user.Id, Name = user.GlobalName }).Entity;
+            ?? dbContext.ContractUsers.Add(new ContractUser { Id = user.Id, Name = user.GlobalName ?? user.Username }).Entity;
 
         var contract = await dbContext.Contracts.FirstOrDefaultAsync(x => x.ThreadId == threadChannel.Id)
             ?? dbContext.Contracts.Add(new Contract { ThreadId = threadChannel.Id, Title = threadChannel.Name }).Entity;
