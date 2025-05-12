@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using ContractsBot.Configuration;
 using ContractsBot.Infrastructure;
 using LiveChartsCore.SkiaSharpView;
@@ -53,7 +54,7 @@ public class RankingService(IOptionsSnapshot<ChartOptions> chartOptions, Databas
                     .FirstOrDefault(cc => cc.Contract.ThreadId == contract.ThreadId)
                     ?.Points ?? 0)
                 .ToList(),
-            Name = contract.Title,
+            Name = GetContractName(contract.Title),
             Stroke = null,
             MaxBarWidth = 250,
             Padding = 10,
@@ -97,5 +98,26 @@ public class RankingService(IOptionsSnapshot<ChartOptions> chartOptions, Databas
         };
 
         return chart.GetImage().Encode().AsStream();
+    }
+
+    private static string GetContractName(string contractName)
+    {
+        var match = Regex.Match(contractName, @"\[(.*?)\]");
+
+        if (match.Success)
+        {
+            return match.Groups[1].Value;
+        }
+
+        if (contractName.Contains('-'))
+        {
+            var parts = contractName.Split('-');
+
+            return parts[0].Trim();
+        }
+
+        var words = contractName.Split([' '], StringSplitOptions.RemoveEmptyEntries);
+
+        return string.Join(' ', words.Take(3)) + (words.Length > 3 ? "..." : string.Empty);
     }
 }
