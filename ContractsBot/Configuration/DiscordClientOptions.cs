@@ -2,7 +2,7 @@
 
 namespace ContractsBot.Configuration;
 
-internal class DiscordClientOptions
+internal record DiscordClientOptions
 {
     public const string SectionName = "DiscordClient";
 

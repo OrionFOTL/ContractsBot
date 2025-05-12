@@ -2,7 +2,7 @@
 
 namespace ContractsBot.Configuration;
 
-internal class ServerOptions
+internal record ServerOptions
 {
     public const string SectionName = "Servers";
 

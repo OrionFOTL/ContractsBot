@@ -23,6 +23,7 @@ var interactionService = new InteractionService(discordSocketClient);
 builder.Services.AddSerilog(config => config.ReadFrom.Configuration(builder.Configuration));
 builder.Services.AddAndValidateOptions<DiscordClientOptions>(DiscordClientOptions.SectionName);
 builder.Services.AddAndValidateOptions<ServerOptions>(ServerOptions.SectionName);
+builder.Services.AddAndValidateOptions<ChartOptions>(ChartOptions.SectionName);
 builder.Services.AddSingleton(discordSocketClient);
 builder.Services.AddSingleton(interactionService);
 builder.Services.AddDbContext<DatabaseContext>(o => o.UseSqlite("Data Source=contracts.db"));

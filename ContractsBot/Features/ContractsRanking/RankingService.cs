@@ -1,19 +1,23 @@
-﻿using ContractsBot.Infrastructure;
+using ContractsBot.Configuration;
+using ContractsBot.Infrastructure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.SKCharts;
 using LiveChartsCore.SkiaSharpView.VisualElements;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SkiaSharp;
 
 namespace ContractsBot.Features.ContractsRanking;
 
-public class RankingService(DatabaseContext context)
+public class RankingService(IOptionsSnapshot<ChartOptions> chartOptions, DatabaseContext context)
 {
     private static SolidColorPaint BlackOpenSansPaint => new(new SKColor(30, 30, 30, 255))
     {
         SKTypeface = SKTypeface.FromFamilyName("Noto Sans JP")
     };
+
+    private readonly int _labelsRotation = chartOptions.Value.LabelsRotation;
 
     public async Task<int> GetRank(ulong userId)
     {
@@ -68,7 +72,7 @@ public class RankingService(DatabaseContext context)
                 {
                     Labels = topUsers.Select(u => u.Name).ToArray(),
                     LabelsPaint = BlackOpenSansPaint,
-                    LabelsRotation = -30,
+                    LabelsRotation = _labelsRotation,
                     Padding = new(1),
                 }
             ],
